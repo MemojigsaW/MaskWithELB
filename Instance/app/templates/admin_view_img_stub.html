@@ -1,0 +1,20 @@
+{% extends "admin.html" %}
+{% block content %}
+<table>
+    <thead>
+    <th>Pic Path</th>
+    </thead>
+    {% for row in images %}
+    <tr>
+        <td>{{ row[0]}}</td>
+        <td>{{ row[1]}}</td>
+        <td>{{ row[2]}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+  <form>
+        <button formaction="{{url_for('admin_page')}}">Close Pic Path</button>
+    </form>
+
+{% endblock%}

@@ -1,0 +1,19 @@
+{% extends "InstancePage.html" %}
+{% block content %}
+            <h2>HTTP Graph</h2>
+
+    <div id="http_plot" style="width:500px;height:200px"></div>
+
+    <script>
+
+        var options = {
+            series: {
+                lines: { show: true },
+                points: { show: true }
+            }
+        };
+
+
+        $.plot($("#http_plot"), [ {{ http_stats }} ] , options);
+    </script>
+{% endblock %}

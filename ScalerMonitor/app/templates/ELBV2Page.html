@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+         body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue;}
+         .manage{
+                  text-align: left;
+                  margin: 30px auto;
+                  padding: 10px 20px 20px;
+                  width: 1800px;
+                  background: white;
+                  border-radius: 3px;
+            }
+         .manage3{
+                  text-align: left;
+                  margin: 30px auto;
+                  padding: 5px 20px 5px;
+                  width: 1800px;
+                  background: powderblue;
+                  border-radius: 3px;
+            }
+        td { font-size: 14px;  padding:0 13px; }
+        th { padding:0 13px; }
+    </style>
+</head>
+<body>
+<div class="manage">
+    <div>
+        <h2>ELBV2 (Application Load Balancer) Info</h2>
+        <a href="{{ ''.join(['http://', ELBDNS]) }}">{{ ELBDNS }}</a>
+        <p></p>
+        <table>
+            <thead>
+            <th>Load Balancer Name</th>
+            <th>Vpc Id</th>
+            <th>State</th>
+            <th>Type</th>
+            <th>IpAddressType</th>
+            </thead>
+            {% for item in ELB_dict_list %}
+            <tr>
+                <td>{{item['LoadBalancerName']}}</td>
+                <td>{{item['VpcId']}}</td>
+                <td>{{item['State']['Code']}}</td>
+                <td>{{item['Type']}}</td>
+                <td>{{item['IpAddressType']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div>
+        <br/>
+        <br/>
+        ELBV2 Listener of {{ELBARN}}
+        <p></p>
+        <table>
+            <thead>
+            <th>Port</th>
+            <th>Protocol</th>
+            <th>Action type</th>
+            <th>Action Destination</th>
+            </thead>
+            {% for item in listener_dict_list %}
+            <tr>
+                <td>{{item['Port']}}</td>
+                <td>{{item['Protocol']}}</td>
+                <td>{{item['DefaultActions'][0]['Type']}}</td>
+                <td>{{item['DefaultActions'][0]['TargetGroupArn']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div>
+        <br/>
+        <br/>
+        Target Group Info (Worker Pool, {{TGARN}})\
+        <p></p>
+        <table>
+            <thead>
+            <th>Target Group Name</th>
+            <th>Protocol</th>
+            <th>Port</th>
+            <th>VpcId</th>
+            <th>TargetType</th>
+            <th>Protocol Version</th>
+
+            <th>Health Check Protocol</th>
+            <th>Health Check Port</th>
+            <th>Health Check Enabled</th>
+            <th>Health Check Interval (Seconds)</th>
+            <th>Health Check Timeout (Seconds)</th>
+            <th>Healthy Threshold Count</th>
+            <th>UnHealthy Threshold Count</th>
+            <th>Health Check Path</th>
+            </thead>
+            {% for item in TG_dict_list %}
+            <tr>
+                <td>{{item['TargetGroupName']}}</td>
+                <td>{{item['Protocol']}}</td>
+                <td>{{item['Port']}}</td>
+                <td>{{item['VpcId']}}</td>
+                <td>{{item['TargetType']}}</td>
+                <td>{{item['Protocol Version']}}</td>
+
+                <td>{{item['HealthCheckProtocol']}}</td>
+                <td>{{item['HealthCheckPort']}}</td>
+                <td>{{item['HealthCheckEnabled']}}</td>
+                <td>{{item['HealthCheckIntervalSeconds']}}</td>
+                <td>{{item['HealthCheckTimeoutSeconds']}}</td>
+                <td>{{item['HealthyThresholdCount']}}</td>
+                <td>{{item['UnhealthyThresholdCount']}}</td>
+                <td>{{item['HealthCheckPath']}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+<div class="manage">
+    <div>
+        <h2>Targets Health Info</h2>
+        <table>
+            <thead>
+            <th>Target Id</th>
+            <th>Target Port</th>
+            <th>Health Check Port</th>
+            <th>Target Health</th>
+
+            </thead>
+            {% for item in TH_dict_list %}
+            <tr>
+                <td>{{item['Target']['Id']}}</td>
+                <td>{{item['Target']['Port']}}</td>
+                <td>{{item['HealthCheckPort']}}</td>
+                <td>{{item['TargetHealth']['State']}}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div>
+        {% with messages = get_flashed_messages(category_filter=["ELBV2Page_error"]) %}
+            {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+            <div>{{ message }}</div>
+            {% endfor %}
+            </ul>
+            </b>
+        {% endif %}
+        {% endwith %}
+
+    </div>
+</div>
+<div class="manage">
+    <h2>Manage Targets</h2>
+    <div>
+         <form action="{{url_for('reg_target')}}" method='post'>
+                <input type="text" name="Instance_Id" placeholder="Instance Id">
+                <button type="submit">Register Target</button>
+         </form>
+    </div>
+    <p></p>
+    <div>
+         <form action="{{url_for('dereg_target')}}" method='post'>
+                <input type="text" name="Instance_Id" placeholder="Instance Id">
+                <button type="submit">Deregister Target</button>
+         </form>
+    </div>
+</div>
+
+<div class="manage3">
+        <form>
+            <button formaction="{{url_for('loadInstancePage')}}">Back To Home</button>
+        </form>
+</div>
+</body>
+</html>

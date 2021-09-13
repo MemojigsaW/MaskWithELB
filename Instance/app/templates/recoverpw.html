@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recover pw</title>
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue;text-align: center;}flask
+         .text{
+        text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+
+    <h1>Reset Your Password</h1>
+    <h3>Please enter your username to receive a password reset email.</h3>
+    <p>
+        <form action="{{url_for('recoverpw')}}" method="post">
+
+            <input type="text" name="r_username" placeholder="Enter Username">
+            <button class="button1" type="submit">Send Password Reset Link</button>
+
+        </form>
+    </p>
+    <p>
+      <form>
+        <button formaction="/login">Return to Admin Page</button>
+    </form>
+
+    </p>
+
+    <b>
+
+            {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                <div>{{ message }}</div>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+
+    </b>
+</body>
+</html>

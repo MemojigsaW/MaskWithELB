@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Auto Scaling Settings</title>
+     <style>
+         body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue;}
+         .manage{
+                  text-align: center;
+                  margin: 30px auto;
+                  padding: 20px 20px 20px;
+                  width: 800px;
+                  background: white;
+                  border-radius: 3px;
+                  }
+     </style>
+</head>
+<body>
+<div class="manage">
+    <h1>Configure Auto Scaling Settings</h1>
+        <form method='post' enctype='multipart/form-data'>
+            <p>CPU threshold for growing the worker pool:</p>
+            <input type='text' name='expandThreshold' value = {{expandThreshold}}>
+            <p>CPU threshold for shrinking the worker pool:</p>
+            <input type='text' name='shrinkThreshold' value = {{shrinkThreshold}}>
+
+            <b>
+                {% with messages = get_flashed_messages(category_filter=["thresholderror"]) %}
+                {% if messages %}
+                <ul class=flashes>
+                    {% for message in messages %}
+                    <div>{{ message }}</div>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </b>
+
+            <p>Ratio by which to expand the worker pool:</p>
+            <input type='text' name='expandRatio' value = {{expandRatio}}>
+            <p>Ratio by which to shrink the worker pool:</p>
+            <input type='text' name='shrinkRatio' value = {{shrinkRatio}}>
+
+            <b>
+                {% with messages = get_flashed_messages(category_filter=["ratioerror"]) %}
+                {% if messages %}
+                <ul class=flashes>
+                    {% for message in messages %}
+                    <div>{{ message }}</div>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </b>
+
+            <p><input type='submit' value='Configure Auto Scaler'></p>
+        </form>
+
+        <form>
+            <button formaction="{{url_for('loadInstancePage')}}">Back To Home</button>
+        </form>
+</div>
+
+</body>
+</html>

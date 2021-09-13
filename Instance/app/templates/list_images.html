@@ -1,0 +1,98 @@
+<!doctype html>
+
+    <head>
+         <style>
+         body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue;padding-left: 50px;}
+         </style>
+    </head>
+
+    {%- if tree.no_faces|length != 0 %}
+    <h1>No Faces Detected</h1>
+    <table> 
+        <thead> 
+            <th>Filename</th>
+            <th></th>
+            <th></th>
+            
+        </thead>
+    {%- endif %}
+	{%- for item in tree.no_faces %}
+        <tr>
+            <td>{{ item }}</td>
+            <td>
+                <form action="{{url_for('show_image',name=item)}}" method='get'>
+                    <input type='submit' value='Show' />
+                </form>
+            </td>
+            
+	{%- endfor %}
+    </table>
+    
+    {%- if tree.all_masked|length != 0 %}
+    <h1>All Faces Wearing Masks</h1>
+    <table /> 
+        <thead> 
+            <th>Filename</th>
+            <th></th>
+            <th></th>
+            
+        </thead>
+    {%- endif %}
+	{%- for item in tree.all_masked %}
+        <tr>
+            <td>{{ item }}</td>
+            <td>
+                <form action="{{url_for('show_image',name=item)}}" method='get'>
+                    <input type='submit' value='Show' />
+                </form>
+            </td>
+            
+	{%- endfor %}
+	
+    </table>
+    
+    {%- if tree.all_unmasked|length != 0 %}
+    <h1>All Faces Not Wearing Masks</h1>
+    <table> 
+        <thead> 
+            <th>Filename</th>
+            <th></th>
+            <th></th>
+            
+        </thead>
+    {%- endif %}
+	{%- for item in tree.all_unmasked %}
+        <tr>
+            <td>{{ item }}</td>
+            <td>
+                <form action="{{url_for('show_image',name=item)}}" method='get'>
+                    <input type='submit' value='Show' />
+                </form>
+            </td>
+            
+	{%- endfor %}
+    </table>
+    
+    {%- if tree.some_masked|length != 0 %}
+    <h1>Only Some Faces Wear Masks</h1>
+    <table> 
+        <thead> 
+            <th>Filename</th>
+            <th></th>
+            <th></th>
+            
+        </thead>
+    {%- endif %}
+	{%- for item in tree.some_masked %}
+        <tr>
+            <td>{{ item }}</td>
+            <td>
+                <form action="{{url_for('show_image',name=item)}}" method='get'>
+                    <input type='submit' value='Show' />
+                </form>
+            </td>
+            
+	{%- endfor %}
+    </table>
+    
+    <a href="{{url_for('upload_image')}}">Back</a>

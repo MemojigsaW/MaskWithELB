@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+         <style>
+         body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue; padding-left: 50px;}
+         .result{
+          text-align: left;
+          margin: 30px auto;
+          padding: 20px 20px 20px;
+          width: 500px;
+          background: white;
+            }
+         .text{
+        text-align: center;
+        }
+         </style>
+    </head>
+    <body>
+    <div class="text">
+        <h1>Mask Detection Results</h1>
+        </div>
+
+        <div class="result">
+             <img src="{{ url_for('static', filename=image) }}" width="500"  alt="Oops, something is wrong">
+            <ul>
+                <h4>Number of Faces: {{num_faces}}</h4>
+                <h4>Number of Faces Wearing Masks: {{num_masked}}</h4>
+                <h4>Number of Faces Without Masks: {{num_unmasked}}</h4>
+            </ul>
+
+        </div>
+
+        <div class="text">
+             <form>
+                <button formaction="{{url_for('upload_image')}}">Back To Upload Page</button>
+                <button formaction="{{url_for('list_images')}}">Back To History Page</button>
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="{{ url_for('static', filename='flot/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='flot/jquery.flot.js') }}"></script>
+    <title>Monitor Instances</title>
+    <style>
+         body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue;}
+         .manage{
+                  text-align: left;
+                  margin: 30px auto;
+                  padding: 20px 20px 20px;
+                  width: 1800px;
+                  background: white;
+                  border-radius: 3px;
+            }
+         .manage2{
+                  text-align: right;
+                  margin: 30px auto;
+                  padding: 20px 20px 20px;
+                  width: 1800px;
+                  background: powderblue;
+                  border-radius: 3px;
+            }
+         .manage3{
+                  text-align: left;
+                  margin: 30px auto;
+                  padding: 5px 20px 5px;
+                  width: 1800px;
+                  background: powderblue;
+                  border-radius: 3px;
+            }
+         .graph{ text-align: center;}
+         .button1 {
+         background-color: powderblue;font-size: 14px; padding: 3px 40px;}
+         .button2 {
+         background-color: #D8FFA6;font-size: 14px; padding: 3px 40px;}
+         .button3 {
+         background-color: #FFA4A4;font-size:14px; padding: 3px 49px;}
+         .button4 {
+         background-color: #FFA4A4;font-size:14px; padding: 3px 35px;}
+         .button5 {
+         background-color: #D8FFA6;font-size:14px;}
+         .button6 {
+         background-color: #FFA4A4;font-size:14px;}
+        td { font-size: 14px;  padding:0 13px; }
+        th { padding:0 13px; }
+        form { display: inline-block; //Or display: inline; }
+        h1 {font-family: Arial, sans-serif;text-align: center;font-size: 40px;}
+    </style>
+
+</head>
+<body>
+        <h1>Manager Home</h1>
+<div class="manage">
+    <div>
+        <h2>View All EC2 Instances</h2>
+
+        <form>
+        <button class="button1" formaction="{{url_for('createInstance')}}">Create New Worker</button>
+        </form>
+
+        <form>
+        <button class="button2" formaction="{{url_for('loadInstancePage')}}">Refresh Page</button>
+        </form>
+    <div>
+        {% with messages = get_flashed_messages(category_filter=["InstancePage_error"]) %}
+            {% if messages %}
+            <ul class=flashes>
+            {% for message in messages %}
+            <div>{{ message }}</div>
+            {% endfor %}
+            </ul>
+            </b>
+        {% endif %}
+        {% endwith %}
+
+    </div>
+        <p>
+            <table>
+                <thead>
+                <th>Image Id</th>
+                <th>Instance Id</th>
+                <th>Instance Type</th>
+                <th>Keyname</th>
+                <th>Placement</th>
+                <th>State</th>
+                <th>Subnet Id</th>
+                <th>Vpc Id</th>
+                <th>Security Group Name</th>
+                <th>Security Group Id</th>
+                </thead>
+                {% for item in instance_dict_list %}
+                <tr>
+                    <td>{{item['ImageId']}}</td>
+                    <td>{{item['InstanceId']}}</td>
+                    <td>{{item['InstanceType']}}</td>
+                    <td>{{item['KeyName']}}</td>
+                    <td><center>{{item['Placement']['AvailabilityZone']}}</center></td>
+                    <td>{{item['State']['Name']}}</td>
+                    <td>{{item['SubnetId']}}</td>
+                    <td>{{item['VpcId']}}</td>
+                    <td>{{item['SecurityGroups'][0]['GroupName']}}</td>
+                    <td>{{item['SecurityGroups'][0]['GroupId']}}</td>
+                    <td>
+
+                        <form action="{{url_for('CPUgraph',id=item['InstanceId'])}}" method='get'>
+                            <input class="button5" type='submit' value='Show CPU & HTTP Graphs' />
+                        </form>
+                        <form style="background-color:#FFBFB1" action="{{url_for('removeInstance',id=item['InstanceId'])}}" method='get'>
+                            <input class="button6" type='submit' value='Remove worker' />
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </p>
+    </div>
+    <div>
+
+            {% block content %}
+            {% endblock %}
+
+    </div>
+  </div>
+    <div class="manage3">
+        <h2>Auto Scaler and ELB Links</h2>
+        <form>
+            <button formaction="{{url_for('configureAutoScaler')}}">Configure Auto Scaling Settings</button>
+        </form>
+
+        <form>
+            <button formaction="{{url_for('loadELBV2Page')}}">Elastic Load Balancer Info Page</button>
+        </form>
+
+    </div>
+    <div class="manage2">
+        <form>
+            <button class="button3" formaction="{{url_for('clearData')}}">Delete All Application Data</button>
+        </form>
+        <p></p>
+        <form>
+            <button class="button4" formaction="{{url_for('shutdown')}}">Stop Manager with All Workers</button>
+        </form>
+     </div>
+
+</body>
+</html>

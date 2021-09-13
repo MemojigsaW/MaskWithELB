@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Home</title>
+         <style>
+         body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue;}
+         h1 {font-family: Arial, sans-serif;text-align: center;font-size: 40px;  line-height: 2;}
+         h2 {font-family: Arial, sans-serif;text-align: center;font-size: 20px;}
+        .login{
+              text-align: center;
+              margin: 30px auto;
+              padding: 20px 20px 20px;
+              width: 500px;
+              background: white;
+              border-radius: 3px;
+        }
+        .text{
+        text-align: center;
+        }
+     </style>
+    </head>
+    <body>
+    <h1>Welcome {{session.user}}</h1>
+        <div class="login">
+
+
+                <title>Upload new image</title>
+
+            <h2>Upload new image by browsing your file system</h2>
+
+            <form method='post' enctype='multipart/form-data'>
+              <input type='file' name='file'>
+              <input type='submit' name='Upload Via Browse' value='Upload Via Browse'>
+
+            <h2>Upload new image by providing URL of the image</h2>
+                <label>URL</label>
+                <input type='text' name='url'>
+
+                <input type='submit' name='Upload Via URL' value='Upload Via URL'>
+            </form>
+
+            <p>
+            <form>
+                <button formaction="{{url_for('list_images')}}">Upload History</button>
+            </form>
+            </p>
+        </div>
+
+        <div class="text">
+            <p>
+                {% block content %}
+                {% endblock %}
+            </p>
+            <p>
+            <form>
+                <button formaction="{{url_for('do_profile')}}">Change Password</button>
+                <button formaction="{{url_for('do_logout')}}" formmethod="post">Log Out</button>
+            </form>
+            </p>
+         </div>
+    </body>
+</html>

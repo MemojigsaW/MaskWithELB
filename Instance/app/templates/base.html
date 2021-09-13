@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{title}}</title>
+        <style>
+            table, tr, td, th {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+        </style> 
+    </head>
+    <body>
+        <h1>{{title}}</h1>
+        <div style="padding: 0px 0px 4px 0px">
+            <form action='{{url_for('upload_image')}}' method='get'>
+                <input type='submit' value='Home'/ >
+            </form>
+        </div>
+
+            {% block content %}
+            {% endblock %}
+    </body>
+</html>

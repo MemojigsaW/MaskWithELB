@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>profile pg</title>
+         <style>
+         body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue;}
+        .button1 {
+         background-color: powderblue; padding: 2px 70px;font-size: 20px;}
+         h1 {font-family: Arial, sans-serif;text-align: center;font-size: 40px;}
+        .text{
+        text-align: center;
+        }
+        .login{
+              text-align: center;
+              margin: 30px auto;
+              padding: 20px 20px 20px;
+              width: 500px;
+              background: white;
+              border-radius: 3px;
+        }
+     </style>
+</head>
+<body>
+<h1>{{user}} Account Settings</h1>
+<div class="login">
+
+    <form action="{{url_for('change_pw')}}" method='post'>
+            <div>
+                <label for="newPassword">Enter New Password:</label>
+                <input type="password" id="newPassword" name="new_pw" title="New password" />
+            </div>
+        <p><input type="submit" value="Use New Password"></p>
+
+      <b>
+    {% with messages = get_flashed_messages(category_filter=["info"]) %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <div>{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+      </b>
+
+    </form>
+</div>
+<div class="text">
+    <p>
+        <form>
+            <button formaction="{{url_for('upload_image')}}">Mask Detection Home Page</button>
+            <button formaction="{{url_for('do_logout')}}" formmethod="post">Log Out</button>
+        </form>
+    </p>
+</div>
+</body>
+</html>

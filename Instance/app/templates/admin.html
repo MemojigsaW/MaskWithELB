@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Landing Page</title>
+    <style>
+         body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue;padding-left: 50px;}
+         h1 {font-family: Arial, sans-serif;font-size: 40px;  line-height: 2;}
+         h2 {font-family: Arial, sans-serif;font-size: 20px;  line-height: 2;}
+         th, td {
+         padding: 8px;
+         text-align: left;
+         }
+        table {
+        border-collapse: collapse;
+        width: 75%;
+        }
+        .flash { color:red}
+
+
+    </style>
+</head>
+<body>
+<h1>Admin page</h1>
+
+        <form>
+            <button formaction="{{url_for('upload_image')}}">Upload Images</button>
+        </form>
+
+    <div>
+
+        <h2>Create New Account</h2>
+
+
+        <form method="post" action="{{url_for('add_user')}}">
+                <p><input type="text" name = 'n_username'>
+                    <label>New Username</label></p>
+                <p><input type="text" name="n_pw">
+                    <label>New Password</label></p>
+                <p><input type="text" name="n_email">
+                    <label>New Email</label></p>
+                <p><input type="submit" value="Create New Account"></p>
+        </form>
+    </div>
+
+    <div>
+        <h2>Existing Users</h2>
+        <table>
+            <thead>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Email</th>
+            </thead>
+            {% for row in cursor %}
+            <tr>
+                <td>{{ row[0]}}</td>
+                <td>{{ row[1]}}</td>
+                <td>{{ row[2]}}</td>
+                <td>{{ row[4]}}</td>
+                <td>
+                    <form action="{{url_for('view_user_img',id=row[0])}}" method='get'>
+                            <input type='submit' value='View Pic Path' />
+                        </form>
+                </td>
+                <td>
+                    <form action="{{url_for('delete_user',id=row[0])}}" method='post' onsubmit='return confirm("Are you sure?")'>
+                            <input type='submit' value='Delete Account' />
+                        </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <b>
+        {% with messages = get_flashed_messages(category_filter=["admin_error"]) %}
+        {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+        <div>{{ message }}</div>
+        {% endfor %}
+        </ul>
+        </b>
+
+    {% endif %}
+    {% endwith %}
+
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+</body>
+</html>

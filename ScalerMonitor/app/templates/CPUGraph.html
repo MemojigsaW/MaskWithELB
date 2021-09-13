@@ -1,0 +1,36 @@
+{% extends "InstancePage.html" %}
+{% block content %}
+
+    <h3>CPU Utilization for the Past 30 Minutes</h3>
+
+
+    <div id="cpu_plot" style="width:1200px;height:250px"></div>
+
+    <h3>HTTP Requests for the Past 30 Minutes</h3>
+
+    <div id="http_plot" style="width:1200px;height:250px"></div>
+
+    <script>
+
+        var options = {
+            series: {
+                lines: { show: true },
+                points: { show: true }
+            }
+        };
+
+
+        $.plot($("#cpu_plot"), [ {{ cpu_stats }} ] , options);
+        $.plot($("#http_plot"), [ {{ http_stats }} ] , options);
+    </script>
+<div class = "graph">
+    <p>
+    <form>
+        <button formaction="{{url_for('loadInstancePage')}}">Close CPU and HTTP Graphs</button>
+    </form>
+    </p>
+</div>
+{% endblock %}
+
+
+

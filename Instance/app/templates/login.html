@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+     <style>
+         body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue;}
+        .button1 {
+         background-color: powderblue; padding: 2px 70px;font-size: 20px;}
+         h1 {font-family: Arial, sans-serif;text-align: center;font-size: 40px;}
+        .login{
+              text-align: center;
+              margin: 30px auto;
+              padding: 20px 20px 20px;
+              width: 500px;
+              background: white;
+              border-radius: 3px;
+        }
+        input {
+            width: 325px;
+            padding: 0px 20px;
+        }
+
+        input,
+            input::-webkit-input-placeholder {
+            font-size: 20px;
+            line-height: 2;
+        }
+     </style>
+
+</head>
+<body>
+
+<h1>Mask Detection</h1>
+    <div class="login">
+        <form action="{{url_for('do_login')}}" method='post'>
+            <input type="text" name="username" placeholder="Username">
+            <p><input type="password" name="pw" placeholder="Password"></p>
+
+            <button class="button1" type="submit">Login</button>
+        </form>
+
+        <b>
+            {% with messages = get_flashed_messages(category_filter=["loginerror"]) %}
+            {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                <div>{{ message }}</div>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+        </b>
+
+        <form action="{{url_for('recoverypage')}}" method="get">
+            <p>
+            <button type="submit">Forgot Password?</button>
+            </p>
+        </form>
+     </div>
+
+</body>
+</html>

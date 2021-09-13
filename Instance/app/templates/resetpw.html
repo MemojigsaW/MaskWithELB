@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reset PW</title>
+    <style>
+        body {font-family: Arial, Helvetica, sans-serif; background-color: powderblue;padding-left: 50px;}
+        .login{
+          text-align: center;
+          margin: 30px auto;
+          padding: 20px 20px 20px;
+          width: 500px;
+          background: white;
+          border-radius: 3px;
+            }
+         .text{
+        text-align: center;
+        }
+    </style>
+</head>
+
+<div class = "text">
+<h1>Reset Password for {{user}}</h1>
+</div>
+<div class = "login">
+<body>
+    <form action="{{url_for('do_resetpw', username=user)}}" method='post'>
+            <div>
+                <label>Please Enter New Password:</label>
+                <input type='password' name='new_pw' placeholder="Enter Password">
+            </div>
+                 <p><input type="submit" value="Save New Password"></p>
+    </form>
+
+            {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                <div>{{ message }}</div>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+</div>
+</body>
+</html>

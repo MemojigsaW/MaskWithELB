@@ -1,0 +1,19 @@
+<!doctype html>
+    <title>Upload new image</title>
+    
+    <h1>Upload new image by browsing your file system</h1>
+    <form method='post' enctype='multipart/form-data'>
+      <input type='file' name='file'>
+      <input type='submit' name='Upload Via Browse' value='Upload Via Browse'>
+      
+    <h1>Upload new image by providing URL of the image</h1>
+        <label>URL</label>
+        <input type='text' name='url'>
+
+        <input type='submit' name='Upload Via URL' value='Upload Via URL'>
+    </form>
+    
+    <a href="{{url_for('upload_image')}}">Back</a>
+
+    
+    </form>
